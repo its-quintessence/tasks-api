@@ -30,14 +30,14 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "verbatimModuleSyntax": false,
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "skipLibCheck": true
   }
 }
