@@ -59,4 +59,43 @@ export const TaskController = {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   },
+
+  toggleStatus: async (req: Request, res: Response) => {
+    try {
+      const { taskId } = req.body;
+      const userId = (req as any).userId;
+
+      if (!taskId) {
+        return res.status(400).json({ message: "TaskID must be provided" });
+      }
+
+      const taskRepository = AppDataSource.getRepository(Task);
+
+      const taskData = await taskRepository.findOne({
+        where: { id: taskId },
+        relations: ["user"],
+      });
+
+      if (!taskData) {
+        return res.status(404).json({ message: "Task not found" });
+      }
+
+      if (taskData.user.id !== userId) {
+        return res
+          .status(403)
+          .json({ message: "You are not allowed to modify this task" });
+      }
+      const newStatus = !taskData.status;
+
+      await taskRepository.update({ id: taskId }, { status: newStatus });
+
+      return res.status(200).json({
+        message: "Task status updated successfully",
+        task: { id: taskId, status: newStatus },
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
 };
