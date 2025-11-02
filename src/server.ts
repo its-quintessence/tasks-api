@@ -2,7 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 import { AppDataSource } from "./data-source.ts";
 import { authRouter } from "./routes/auth.router.ts";
-import { AuthMiddleware } from "./middleware/auth.middleware.ts";
+import { taskRouter } from "./routes/task.router.ts";
 
 config();
 
@@ -12,8 +12,7 @@ server.use(express.json());
 
 // API Routes
 server.use("/auth", authRouter);
-
-server.use("/tasks", AuthMiddleware.authenticate);
+server.use("/tasks", taskRouter);
 
 const PORT = Number(process.env.PORT);
 
